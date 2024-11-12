@@ -17,7 +17,10 @@ module.exports = {
              '.tsx',
              '.json',
            ],
+         "alias": {
+          'range-slider-package': "./range-slider-package"
          },
+        }
        ],
      [
         '@babel/plugin-transform-react-jsx',
@@ -26,4 +29,5 @@ module.exports = {
         },
       ],
     ],
+
 };
