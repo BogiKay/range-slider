@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import type {RangeSliderViewComponent} from './RangeSliderViewNativeComponent';
 import RangeSliderViewNativeComponent, {
-  RangeSliderViewCommands,
+  Commands,
 } from './RangeSliderViewNativeComponent';
 
 type Props = React.ComponentProps<typeof RangeSliderViewNativeComponent>;
@@ -15,7 +15,7 @@ export class RangeSliderView extends React.Component<Props> {
     const ref = this.innerRef.current;
 
     if (ref) {
-      RangeSliderViewCommands.setLeftKnobValueProgrammatically(ref, value);
+      Commands.setLeftKnobValueProgrammatically(ref, value);
     }
   };
 
@@ -23,7 +23,7 @@ export class RangeSliderView extends React.Component<Props> {
     const ref = this.innerRef.current;
 
     if (ref) {
-      RangeSliderViewCommands.setRightKnobValueProgrammatically(ref, value);
+      Commands.setRightKnobValueProgrammatically(ref, value);
     }
   };
 

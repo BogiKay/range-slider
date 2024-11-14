@@ -43,13 +43,12 @@ export interface RangeSliderViewNativeCommands {
   ) => void;
 }
 
-export const RangeSliderViewNativeCommands =
-  codegenNativeCommands<RangeSliderViewNativeCommands>({
-    supportedCommands: [
-      'setLeftKnobValueProgrammatically',
-      'setRightKnobValueProgrammatically',
-    ],
-  });
+export const Commands = codegenNativeCommands<RangeSliderViewNativeCommands>({
+  supportedCommands: [
+    'setLeftKnobValueProgrammatically',
+    'setRightKnobValueProgrammatically',
+  ],
+});
 
 export default codegenNativeComponent<RangeSliderViewProps>(
   'RangeSliderView',

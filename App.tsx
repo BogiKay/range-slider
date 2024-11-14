@@ -1,118 +1,78 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import {RangeSliderView} from 'range-slider-package';
+import * as React from 'react';
+import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+export const RangeSliderScreen: React.FC = () => {
+  const sliderRef = React.useRef<RangeSliderView>(null);
+  const [leftKnobValue, setLeftKnobValue] = React.useState(2);
+  const [rightKnobValue, setRightKnobValue] = React.useState(8);
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  function resetLeftKnobValue() {
+    sliderRef.current?.setLeftKnobValueProgrammatically(2);
+  }
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  function resetRightKnobValue() {
+    sliderRef.current?.setRightKnobValueProgrammatically(8);
+  }
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <Text style={styles.header}>Range Slider</Text>
+        <RangeSliderView
+          ref={sliderRef}
+          activeColor="pink"
+          inactiveColor="gray"
+          leftKnobValue={leftKnobValue}
+          minValue={0}
+          maxValue={10}
+          onRangeSliderViewBeginDrag={() => {
+            console.log('BEGIN_DRAG');
+          }}
+          onRangeSliderViewEndDrag={e => {
+            console.log('END_DRAG', e.nativeEvent);
+            setLeftKnobValue(e.nativeEvent.leftKnobValue ?? 2);
+            setRightKnobValue(e.nativeEvent.rightKnobValue ?? 8);
+          }}
+          onRangeSliderViewValueChange={e => {
+            console.log('CHANGE', e.nativeEvent);
+          }}
+          rightKnobValue={rightKnobValue}
+          style={styles.slider}
+        />
+        <View style={styles.buttonsContainer}>
+          <Button onPress={resetLeftKnobValue} title="Reset left knob" />
+          <Button onPress={resetRightKnobValue} title="Reset right knob" />
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  buttonsContainer: {
+    margin: 40,
   },
-  sectionTitle: {
+  container: {
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    flex: 1,
+    justifyContent: 'center',
+  },
+  header: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: 'bold',
+    paddingVertical: 20,
+    textTransform: 'capitalize',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  safeArea: {
+    alignSelf: 'stretch',
+    flex: 1,
   },
-  highlight: {
-    fontWeight: '700',
+  slider: {
+    height: 40,
+    width: 250,
   },
 });
 
-export default App;
+export default RangeSliderScreen;
